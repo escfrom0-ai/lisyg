@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>キャンプ持ち物チェックリスト</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'メイリオ', Meiryo, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9f1;
+            color: #333;
+            padding: 20px;
+            background-image: linear-gradient(to bottom, #e8f5e9, #f1f8e9);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #2e7d32;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .instructions {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 5px solid #2e7d32;
+        }
+        
+        .instructions p {
+            margin-bottom: 8px;
+        }
+        
+        .person-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .person-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 6px solid #4caf50;
+        }
+        
+        .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .person-card.no2 {
+            border-top-color: #2196f3;
+        }
+        
+        .person-card.no3 {
+            border-top-color: #ff9800;
+        }
+        
+        .person-card.no4 {
+            border-top-color: #9c27b0;
+        }
+        
+        .person-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .person-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        
+        .person-no {
+            font-size: 1.2rem;
+            background-color: #e8f5e9;
+            color: #1b5e20;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .checklist {
+            list-style-type: none;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .checklist::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .checklist::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .checklist::-webkit-scrollbar-thumb {
+            background: #c8e6c9;
+            border-radius: 3px;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #4caf50;
+        }
+        
+        .checklist-item label {
+            font-size: 1.1rem;
+            cursor: pointer;
+            flex-grow: 1;
+            word-break: break-word;
+        }
+        
+        .checklist-item.checked label {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        .delete-item-btn {
+            background-color: #ffebee;
+            color: #c62828;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            transition: background-color 0.2s;
+        }
+        
+        .delete-item-btn:hover {
+            background-color: #ffcdd2;
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .no2 .progress-fill {
+            background-color: #2196f3;
+        }
+        
+        .no3 .progress-fill {
+            background-color: #ff9800;
+        }
+        
+        .no4 .progress-fill {
+            background-color: #9c27b0;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-style: italic;
+        }
+        
+        .add-item-form {
+            display: flex;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .add-item-input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .add-item-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        .add-item-btn:hover {
+            background-color: #3d8b40;
+        }
+        
+        .save-status {
+            text-align: center;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            margin-top: 30px;
+            font-weight: bold;
+            color: #2e7d32;
+            display: none;
+        }
+        
+        .save-status.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .control-btn {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: #f57c00;
+        }
+        
+        .control-btn.reset {
+            background-color: #f44336;
+        }
+        
+        .control-btn.reset:hover {
+            background-color: #d32f2f;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .person-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>キャンプ持ち物チェックリスト</h1>
+            <p class="subtitle">No1〜No4の持ち物リストを管理・保存できます</p>
+        </header>
+        
+        <div class="instructions">
+            <p>✓ 各項目をクリックするとチェックをつけられます</p>
+            <p>✓ チェック状態は自動的に保存されます</p>
+            <p>✓ 各人ごとに持ち物を追加・削除できます</p>
+            <p>✓ ページを再読み込みしてもデータが保持されます</p>
+        </div>
+        
+        <div class="person-container">
+            <!-- No1: マキ -->
+            <div class="person-card no1">
+                <div class="person-header">
+                    <div class="person-name">マキ</div>
+                    <div class="person-no">No1</div>
+                </div>
+                <ul class="checklist" id="list-no1">
+                    <!-- リスト項目はJavaScriptで生成 -->
+                </ul>
+                <div class="add-item-form">
+                    <input type="text" class="add-item-input" id="input-no1" placeholder="新しい持ち物を追加">
+                    <button class="add-item-btn" onclick="addItem('no1')">追加</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>準備進捗</span>
+                        <span class="progress-percent" id="progress-no1">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill-no1" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No2 -->
+            <div class="person-card no2">
+                <div class="person-header">
+                    <div class="person-name">No2</div>
+                    <div class="person-no">No2</div>
+                </div>
+                <ul class="checklist" id="list-no2">
+                    <!-- リスト項目はJavaScriptで生成 -->
+                </ul>
+                <div class="add-item-form">
+                    <input type="text" class="add-item-input" id="input-no2" placeholder="新しい持ち物を追加">
+                    <button class="add-item-btn" onclick="addItem('no2')">追加</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>準備進捗</span>
+                        <span class="progress-percent" id="progress-no2">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill-no2" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No3: 未定 -->
+            <div class="person-card no3">
+                <div class="person-header">
+                    <div class="person-name">No3</div>
+                    <div class="person-no">No3</div>
+                </div>
+                <ul class="checklist" id="list-no3">
+                    <!-- リスト項目はJavaScriptで生成 -->
+                </ul>
+                <div class="add-item-form">
+                    <input type="text" class="add-item-input" id="input-no3" placeholder="新しい持ち物を追加">
+                    <button class="add-item-btn" onclick="addItem('no3')">追加</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>準備進捗</span>
+                        <span class="progress-percent" id="progress-no3">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill-no3" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No4: 未定 -->
+            <div class="person-card no4">
+                <div class="person-header">
+                    <div class="person-name">No4</div>
+                    <div class="person-no">No4</div>
+                </div>
+                <ul class="checklist" id="list-no4">
+                    <!-- リスト項目はJavaScriptで生成 -->
+                </ul>
+                <div class="add-item-form">
+                    <input type="text" class="add-item-input" id="input-no4" placeholder="新しい持ち物を追加">
+                    <button class="add-item-btn" onclick="addItem('no4')">追加</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>準備進捗</span>
+                        <span class="progress-percent" id="progress-no4">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill-no4" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="saveAllData()">全て保存</button>
+            <button class="control-btn reset" onclick="resetAllData()">全てリセット</button>
+        </div>
+        
+        <div class="save-status" id="save-status">データを保存しました！</div>
+        
+        <footer>
+            <p>© 2023 キャンプ持ち物チェックリストアプリ | データはブラウザに保存されます</p>
+        </footer>
+    </div>
+
+    <script>
+        // 初期データ
+        const initialItems = {
+            'no1': [
+                'マキ',
+                'シュラフ4つ',
+                'クーラーボックス',
+                'コット',
+                'エアーマット',
+                '空気入れ',
+                'バスタオル',
+                'タオル',
+                '洗面用具',
+                '保湿剤',
+                '着替え',
+                'パジャマ',
+                '歯ブラシ',
+                'シャンプー',
+                'コンディショナー',
+                'ボディソープ'
+            ],
+            'no2': [
+                'ブランケット',
+                'バスローブ',
+                'アメニティ',
+                'バスタオル2つ',
+                '刺身包丁',
+                'まな板',
+                'ライター',
+                'オイル'
+            ],
+            'no3': [],
+            'no4': []
+        };
+        
+        // チェックリストデータをローカルストレージから読み込む
+        let checklistData = JSON.parse(localStorage.getItem('campChecklist')) || initialItems;
+        
+        // チェック状態をローカルストレージから読み込む
+        let checkedState = JSON.parse(localStorage.getItem('campChecklistState')) || {
+            'no1': {},
+            'no2': {},
+            'no3': {},
+            'no4': {}
+        };
+        
+        // ページ読み込み時にチェックリストを表示
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAllChecklists();
+            updateAllProgressBars();
+            
+            // エンターキーで追加できるようにする
+            document.querySelectorAll('.add-item-input').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const personId = this.id.split('-')[1];
+                        addItem(personId);
+                    }
+                });
+            });
+        });
+        
+        // チェックリストを表示する関数
+        function renderAllChecklists() {
+            for (const personId in checklistData) {
+                renderChecklist(personId);
+            }
+        }
+        
+        // 特定の人のチェックリストを表示
+        function renderChecklist(personId) {
+            const listElement = document.getElementById(`list-${personId}`);
+            const items = checklistData[personId];
+            
+            // 空の状態をクリア
+            listElement.innerHTML = '';
+            
+            // 項目が空の場合
+            if (items.length === 0) {
+                const emptyState = document.createElement('div');
+                emptyState.className = 'empty-state';
+                emptyState.textContent = '持ち物がまだ決まっていません。下のフォームから追加してください。';
+                listElement.appendChild(emptyState);
+                return;
+            }
+            
+            // 各項目を追加
+            items.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'checklist-item';
+                li.id = `${personId}-item-${index}`;
+                if (checkedState[personId][index]) {
+                    li.classList.add('checked');
+                }
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `${personId}-checkbox-${index}`;
+                checkbox.checked = checkedState[personId][index] || false;
+                checkbox.addEventListener('change', function() {
+                    toggleItem(personId, index);
+                });
+                
+                const label = document.createElement('label');
+                label.htmlFor = checkbox.id;
+                label.textContent = item;
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-item-btn';
+                deleteBtn.innerHTML = '×';
+                deleteBtn.addEventListener('click', function() {
+                    deleteItem(personId, index);
+                });
+                
+                li.appendChild(checkbox);
+                li.appendChild(label);
+                li.appendChild(deleteBtn);
+                listElement.appendChild(li);
+            });
+        }
+        
+        // 項目のチェック状態を切り替え
+        function toggleItem(personId, index) {
+            checkedState[personId][index] = !checkedState[personId][index];
+            saveToLocalStorage();
+            updateProgressBar(personId);
+            
+            // チェック状態を反映
+            const itemElement = document.getElementById(`${personId}-item-${index}`);
+            if (checkedState[personId][index]) {
+                itemElement.classList.add('checked');
+            } else {
+                itemElement.classList.remove('checked');
+            }
+            
+            showSaveStatus();
+        }
+        
+        // 新しい項目を追加
+        function addItem(personId) {
+            const inputElement = document.getElementById(`input-${personId}`);
+            const newItem = inputElement.value.trim();
+            
+            if (newItem === '') {
+                alert('持ち物を入力してください');
+                return;
+            }
+            
+            // データに追加
+            checklistData[personId].push(newItem);
+            
+            // 入力欄をクリア
+            inputElement.value = '';
+            inputElement.focus();
+            
+            // 表示を更新
+            renderChecklist(personId);
+            
+            // 保存
+            saveToLocalStorage();
+            
+            // 進捗バーを更新
+            updateProgressBar(personId);
+            
+            showSaveStatus();
+        }
+        
+        // 項目を削除
+        function deleteItem(personId, index) {
+            if (!confirm('この持ち物を削除しますか？')) {
+                return;
+            }
+            
+            // データから削除
+            checklistData[personId].splice(index, 1);
+            
+            // チェック状態を調整
+            const newCheckedState = {};
+            for (let i = 0; i < checklistData[personId].length; i++) {
+                if (i < index && checkedState[personId][i]) {
+                    newCheckedState[i] = true;
+                } else if (i >= index && checkedState[personId][i+1]) {
+                    newCheckedState[i] = true;
+                }
+            }
+            checkedState[personId] = newCheckedState;
+            
+            // 表示を更新
+            renderChecklist(personId);
+            
+            // 保存
+            saveToLocalStorage();
+            
+            // 進捗バーを更新
+            updateProgressBar(personId);
+            
+            showSaveStatus();
+        }
+        
+        // 進捗バーを更新
+        function updateProgressBar(personId) {
+            const items = checklistData[personId];
+            if (items.length === 0) {
+                document.getElementById(`progress-${personId}`).textContent = '0%';
+                document.getElementById(`progress-fill-${personId}`).style.width = '0%';
+                return;
+            }
+            
+            let checkedCount = 0;
+            for (let i = 0; i < items.length; i++) {
+                if (checkedState[personId][i]) {
+                    checkedCount++;
+                }
+            }
+            
+            const percent = Math.round((checkedCount / items.length) * 100);
+            document.getElementById(`progress-${personId}`).textContent = `${percent}%`;
+            document.getElementById(`progress-fill-${personId}`).style.width = `${percent}%`;
+        }
+        
+        // 全ての進捗バーを更新
+        function updateAllProgressBars() {
+            for (const personId in checklistData) {
+                updateProgressBar(personId);
+            }
+        }
+        
+        // データをローカルストレージに保存
+        function saveToLocalStorage() {
+            localStorage.setItem('campChecklist', JSON.stringify(checklistData));
+            localStorage.setItem('campChecklistState', JSON.stringify(checkedState));
+        }
+        
+        // 全てのデータを保存
+        function saveAllData() {
+            saveToLocalStorage();
+            showSaveStatus();
+        }
+        
+        // 全てのデータをリセット
+        function resetAllData() {
+            if (!confirm('全てのデータをリセットしますか？この操作は元に戻せません。')) {
+                return;
+            }
+            
+            // 初期状態に戻す
+            checklistData = JSON.parse(JSON.stringify(initialItems));
+            checkedState = {
+                'no1': {},
+                'no2': {},
+                'no3': {},
+                'no4': {}
+            };
+            
+            // 表示を更新
+            renderAllChecklists();
+            
+            // 保存
+            saveToLocalStorage();
+            
+            // 進捗バーを更新
+            updateAllProgressBars();
+            
+            // 保存完了メッセージ
+            const saveStatus = document.getElementById('save-status');
+            saveStatus.textContent = '全てのデータをリセットしました！';
+            saveStatus.classList.add('show');
+            setTimeout(() => {
+                saveStatus.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 保存完了メッセージを表示
+        function showSaveStatus() {
+            const saveStatus = document.getElementById('save-status');
+            saveStatus.textContent = 'データを保存しました！';
+            saveStatus.classList.add('show');
+            setTimeout(() => {
+                saveStatus.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
