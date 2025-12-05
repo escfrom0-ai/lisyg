@@ -3,336 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>キャンプ持ち物チェックリスト</title>
+    <title>キャンプ持ち物チェックリスト - 共有可能</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif;
         }
         
         :root {
-            --primary: #4a90e2;
-            --secondary: #7ed321;
-            --accent: #ff6b6b;
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
             --light: #f8f9fa;
-            --dark: #343a40;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+            --dark: #2c3e50;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius: 12px;
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: var(--dark);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             position: relative;
             overflow-x: hidden;
-        }
-        
-        /* 背景アニメーション */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(74, 144, 226, 0.05);
-            animation: float 20s infinite linear;
-        }
-        
-        .circle:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            top: 10%;
-            left: 10%;
-            animation-duration: 25s;
-        }
-        
-        .circle:nth-child(2) {
-            width: 120px;
-            height: 120px;
-            top: 60%;
-            left: 80%;
-            animation-duration: 30s;
-            animation-delay: 2s;
-        }
-        
-        .circle:nth-child(3) {
-            width: 60px;
-            height: 60px;
-            top: 80%;
-            left: 20%;
-            animation-duration: 20s;
-            animation-delay: 4s;
-        }
-        
-        .circle:nth-child(4) {
-            width: 100px;
-            height: 100px;
-            top: 20%;
-            left: 70%;
-            animation-duration: 35s;
-            animation-delay: 1s;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0.5;
-            }
-            25% {
-                transform: translateY(-20px) rotate(90deg);
-                opacity: 0.7;
-            }
-            50% {
-                transform: translateY(0) rotate(180deg);
-                opacity: 0.5;
-            }
-            75% {
-                transform: translateY(20px) rotate(270deg);
-                opacity: 0.3;
-            }
+            -webkit-tap-highlight-color: transparent;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
         }
         
+        /* ヘッダー */
         header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
+            margin-bottom: 25px;
+            padding: 20px 15px;
             background: white;
-            border-radius: 20px;
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            animation: slideDown 0.8s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
             color: var(--primary);
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            position: relative;
-            display: inline-block;
-        }
-        
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
         }
         
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #666;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
         
+        /* 共有ボタン */
+        .share-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .share-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            min-width: 140px;
+            max-width: 200px;
+        }
+        
+        .share-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .share-btn.export {
+            background: var(--secondary);
+        }
+        
+        .share-btn.export:hover {
+            background: #27ae60;
+        }
+        
+        .share-btn.import {
+            background: #9b59b6;
+        }
+        
+        .share-btn.import:hover {
+            background: #8e44ad;
+        }
+        
+        /* メインコンテンツ */
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 30px;
-            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         
-        /* 左側：チェックリスト */
-        .checklists-section {
-            animation: fadeIn 1s ease-out 0.3s both;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        .person-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-        }
-        
+        /* チェックリストカード */
         .person-card {
             background: white;
-            border-radius: 16px;
-            padding: 25px;
+            border-radius: var(--radius);
+            padding: 20px;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            border-top: 5px solid var(--primary);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .person-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s ease;
-        }
-        
-        .person-card:hover::before {
-            transform: scaleX(1);
+            border-left: 5px solid var(--primary);
         }
         
         .person-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-        }
-        
-        .person-card.no2 {
-            border-top-color: var(--secondary);
-        }
-        
-        .person-card.no3 {
-            border-top-color: #ffa726;
-        }
-        
-        .person-card.no4 {
-            border-top-color: #ab47bc;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         
         .person-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
         
         .person-name-input {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: var(--primary);
             border: none;
             background: transparent;
             padding: 5px 10px;
             border-radius: 8px;
-            width: 70%;
-            transition: var(--transition);
+            width: 60%;
         }
         
         .person-name-input:focus {
             outline: none;
-            background: rgba(74, 144, 226, 0.05);
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+            background: rgba(52, 152, 219, 0.05);
         }
         
         .person-no {
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: var(--primary);
             color: white;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 20px;
             font-weight: bold;
-            box-shadow: 0 3px 8px rgba(74, 144, 226, 0.3);
-        }
-        
-        .no2 .person-no {
-            background: var(--secondary);
-            box-shadow: 0 3px 8px rgba(126, 211, 33, 0.3);
-        }
-        
-        .no3 .person-no {
-            background: #ffa726;
-            box-shadow: 0 3px 8px rgba(255, 167, 38, 0.3);
-        }
-        
-        .no4 .person-no {
-            background: #ab47bc;
-            box-shadow: 0 3px 8px rgba(171, 71, 188, 0.3);
         }
         
         .checklist {
             list-style-type: none;
-            margin-bottom: 25px;
-            max-height: 350px;
+            margin-bottom: 20px;
+            max-height: 300px;
             overflow-y: auto;
             padding-right: 10px;
-        }
-        
-        .checklist::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .checklist::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-        
-        .checklist::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
         }
         
         .checklist-item {
             display: flex;
             align-items: center;
-            padding: 14px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #f0f0f0;
-            animation: slideInRight 0.5s ease-out;
-            animation-fill-mode: both;
-        }
-        
-        .checklist-item:nth-child(1) { animation-delay: 0.1s; }
-        .checklist-item:nth-child(2) { animation-delay: 0.2s; }
-        .checklist-item:nth-child(3) { animation-delay: 0.3s; }
-        .checklist-item:nth-child(4) { animation-delay: 0.4s; }
-        .checklist-item:nth-child(5) { animation-delay: 0.5s; }
-        .checklist-item:nth-child(6) { animation-delay: 0.6s; }
-        
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
         
         .checklist-item:last-child {
@@ -340,24 +191,18 @@
         }
         
         .checklist-item input[type="checkbox"] {
-            margin-right: 15px;
-            width: 22px;
-            height: 22px;
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             accent-color: var(--primary);
-            transition: var(--transition);
-        }
-        
-        .checklist-item input[type="checkbox"]:checked {
-            transform: scale(1.1);
         }
         
         .checklist-item label {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             cursor: pointer;
             flex-grow: 1;
             word-break: break-word;
-            transition: var(--transition);
         }
         
         .checklist-item.checked label {
@@ -366,97 +211,18 @@
         }
         
         .delete-item-btn {
-            background: rgba(255, 107, 107, 0.1);
+            background: rgba(231, 76, 60, 0.1);
             color: var(--accent);
             border: none;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-left: 10px;
-            transition: var(--transition);
-        }
-        
-        .delete-item-btn:hover {
-            background: var(--accent);
-            color: white;
-            transform: rotate(90deg);
-        }
-        
-        .progress-container {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 5px;
-            width: 0%;
-            transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background-image: linear-gradient(
-                -45deg,
-                rgba(255, 255, 255, 0.2) 25%,
-                transparent 25%,
-                transparent 50%,
-                rgba(255, 255, 255, 0.2) 50%,
-                rgba(255, 255, 255, 0.2) 75%,
-                transparent 75%,
-                transparent
-            );
-            z-index: 1;
-            background-size: 20px 20px;
-            animation: move 2s linear infinite;
-        }
-        
-        @keyframes move {
-            0% {
-                background-position: 0 0;
-            }
-            100% {
-                background-position: 20px 0;
-            }
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 30px 20px;
-            color: #999;
-            font-style: italic;
-            background: rgba(0, 0, 0, 0.02);
-            border-radius: 10px;
-            margin: 10px 0;
         }
         
         .add-item-form {
@@ -467,415 +233,400 @@
         
         .add-item-input {
             flex-grow: 1;
-            padding: 14px 18px;
+            padding: 12px 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 1rem;
-            transition: var(--transition);
         }
         
         .add-item-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
         }
         
         .add-item-btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0 25px;
-            border-radius: 10px;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            transition: var(--transition);
+            min-width: 80px;
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .progress-text {
             display: flex;
-            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.8s ease;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 25px 15px;
+            color: #999;
+            font-style: italic;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 8px;
+        }
+        
+        /* モーダルウィンドウ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
             justify-content: center;
-            min-width: 100px;
-        }
-        
-        .add-item-btn:hover {
-            background: #3a7bc8;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.2);
-        }
-        
-        /* 右側：サマリー */
-        .summary-section {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            animation: fadeIn 1s ease-out 0.5s both;
-            position: sticky;
-            top: 20px;
-            max-height: calc(100vh - 40px);
-            overflow-y: auto;
-        }
-        
-        .summary-section::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .summary-section::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-        
-        .summary-section::-webkit-scrollbar-thumb {
-            background: #ddd;
-            border-radius: 3px;
-        }
-        
-        .summary-title {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: var(--primary);
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-            display: flex;
             align-items: center;
-            gap: 10px;
+            z-index: 1000;
+            padding: 20px;
         }
         
-        .summary-title i {
-            color: var(--secondary);
+        .modal-overlay.active {
+            display: flex;
         }
         
-        .summary-list {
-            margin-bottom: 30px;
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         
-        .summary-person {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .summary-person:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .summary-person-header {
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
         }
         
-        .summary-person-name {
-            font-weight: bold;
-            font-size: 1.3rem;
-            color: var(--primary);
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
         }
         
-        .summary-person-stats {
-            font-size: 0.9rem;
-            color: #666;
-            background: rgba(0, 0, 0, 0.03);
-            padding: 5px 12px;
-            border-radius: 20px;
-        }
-        
-        .summary-items {
-            list-style-type: none;
-        }
-        
-        .summary-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px dashed #eee;
-        }
-        
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-        
-        .summary-item.checked {
-            opacity: 0.7;
-        }
-        
-        .summary-item i {
-            margin-right: 10px;
-            font-size: 0.9rem;
-        }
-        
-        .summary-item.checked i {
-            color: var(--secondary);
-        }
-        
-        .summary-item.unchecked i {
-            color: #ccc;
-        }
-        
-        .summary-item-text {
-            flex-grow: 1;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .control-btn {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            padding: 14px 28px;
-            border-radius: 12px;
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #999;
             cursor: pointer;
-            font-weight: bold;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 180px;
-            justify-content: center;
+            line-height: 1;
         }
         
-        .control-btn:hover {
+        .modal-description {
+            margin-bottom: 20px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .data-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .data-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 150px;
+            margin-bottom: 20px;
+        }
+        
+        .data-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .modal-btn.primary {
             background: var(--primary);
             color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(74, 144, 226, 0.2);
         }
         
-        .control-btn.reset {
-            color: var(--accent);
-            border-color: var(--accent);
+        .modal-btn.secondary {
+            background: #eee;
+            color: var(--dark);
         }
         
-        .control-btn.reset:hover {
-            background: var(--accent);
-            color: white;
-            box-shadow: 0 8px 16px rgba(255, 107, 107, 0.2);
+        .modal-btn:hover {
+            transform: translateY(-2px);
         }
         
-        .save-status {
-            text-align: center;
-            padding: 20px;
-            background: rgba(126, 211, 33, 0.1);
-            border-radius: 12px;
-            margin-top: 30px;
-            font-weight: bold;
-            color: var(--secondary);
-            display: none;
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        .save-status.show {
-            display: block;
-        }
-        
+        /* フッター */
         footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             color: #666;
             font-size: 0.9rem;
         }
         
-        @media (max-width: 1200px) {
-            .person-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .summary-section {
-                position: static;
-                max-height: none;
-            }
-        }
-        
+        /* レスポンシブデザイン */
         @media (max-width: 768px) {
-            .controls {
+            .share-buttons {
                 flex-direction: column;
                 align-items: center;
             }
             
-            .control-btn {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
+            .share-btn {
+                max-width: 100%;
             }
             
             .person-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+                gap: 10px;
             }
             
             .person-name-input {
                 width: 100%;
             }
+            
+            .add-item-form {
+                flex-direction: column;
+            }
+            
+            .add-item-btn {
+                width: 100%;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .main-content {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 背景アニメーション -->
-    <div class="bg-animation">
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-    </div>
-    
     <div class="container">
         <header>
             <h1>キャンプ持ち物チェックリスト</h1>
-            <p class="subtitle">各人の持ち物リストを管理し、チェック状態を保存できます。名前を編集して個人ごとにカスタマイズしてください。</p>
+            <p class="subtitle">No1〜No4の持ち物リストを管理・共有できます。データをエクスポートして他の人と共有したり、インポートして他の人のデータを読み込めます。</p>
+            
+            <div class="share-buttons">
+                <button class="share-btn export" onclick="openExportModal()">
+                    <i class="fas fa-share-alt"></i> データをエクスポート
+                </button>
+                <button class="share-btn import" onclick="openImportModal()">
+                    <i class="fas fa-download"></i> データをインポート
+                </button>
+                <button class="share-btn" onclick="saveAllData()">
+                    <i class="fas fa-save"></i> 全て保存
+                </button>
+                <button class="share-btn" style="background: var(--accent);" onclick="resetAllData()">
+                    <i class="fas fa-redo"></i> 全てリセット
+                </button>
+            </div>
         </header>
         
         <div class="main-content">
-            <!-- 左側：チェックリスト -->
-            <div class="checklists-section">
-                <div class="person-container">
-                    <!-- No1 -->
-                    <div class="person-card no1">
-                        <div class="person-header">
-                            <input type="text" class="person-name-input" id="name-no1" value="No1" maxlength="20">
-                            <div class="person-no">No1</div>
-                        </div>
-                        <ul class="checklist" id="list-no1">
-                            <!-- リスト項目はJavaScriptで生成 -->
-                        </ul>
-                        <div class="add-item-form">
-                            <input type="text" class="add-item-input" id="input-no1" placeholder="新しい持ち物を追加">
-                            <button class="add-item-btn" onclick="addItem('no1')">追加</button>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-text">
-                                <span>準備進捗</span>
-                                <span class="progress-percent" id="progress-no1">0%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progress-fill-no1" style="width: 0%"></div>
-                            </div>
-                        </div>
+            <!-- No1 -->
+            <div class="person-card no1">
+                <div class="person-header">
+                    <input type="text" class="person-name-input" id="name-no1" value="No1" maxlength="20">
+                    <div class="person-no">No1</div>
+                </div>
+                <ul class="checklist" id="list-no1"></ul>
+                <div class="add-item-form">
+                    <input type="text" class="add-item-input" id="input-no1" placeholder="新しい持ち物を追加">
+                    <button class="add-item-btn" onclick="addItem('no1')">追加</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>準備進捗</span>
+                        <span class="progress-percent" id="progress-no1">0%</span>
                     </div>
-                    
-                    <!-- No2 -->
-                    <div class="person-card no2">
-                        <div class="person-header">
-                            <input type="text" class="person-name-input" id="name-no2" value="No2" maxlength="20">
-                            <div class="person-no">No2</div>
-                        </div>
-                        <ul class="checklist" id="list-no2">
-                            <!-- リスト項目はJavaScriptで生成 -->
-                        </ul>
-                        <div class="add-item-form">
-                            <input type="text" class="add-item-input" id="input-no2" placeholder="新しい持ち物を追加">
-                            <button class="add-item-btn" onclick="addItem('no2')">追加</button>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-text">
-                                <span>準備進捗</span>
-                                <span class="progress-percent" id="progress-no2">0%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progress-fill-no2" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- No3 -->
-                    <div class="person-card no3">
-                        <div class="person-header">
-                            <input type="text" class="person-name-input" id="name-no3" value="No3" maxlength="20">
-                            <div class="person-no">No3</div>
-                        </div>
-                        <ul class="checklist" id="list-no3">
-                            <!-- リスト項目はJavaScriptで生成 -->
-                        </ul>
-                        <div class="add-item-form">
-                            <input type="text" class="add-item-input" id="input-no3" placeholder="新しい持ち物を追加">
-                            <button class="add-item-btn" onclick="addItem('no3')">追加</button>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-text">
-                                <span>準備進捗</span>
-                                <span class="progress-percent" id="progress-no3">0%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progress-fill-no3" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- No4 -->
-                    <div class="person-card no4">
-                        <div class="person-header">
-                            <input type="text" class="person-name-input" id="name-no4" value="No4" maxlength="20">
-                            <div class="person-no">No4</div>
-                        </div>
-                        <ul class="checklist" id="list-no4">
-                            <!-- リスト項目はJavaScriptで生成 -->
-                        </ul>
-                        <div class="add-item-form">
-                            <input type="text" class="add-item-input" id="input-no4" placeholder="新しい持ち物を追加">
-                            <button class="add-item-btn" onclick="addItem('no4')">追加</button>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-text">
-                                <span>準備進捗</span>
-                                <span class="progress-percent" id="progress-no4">0%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progress-fill-no4" style="width: 0%"></div>
-                            </div>
-                        </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill-no1" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
             
-            <!-- 右側：サマリー -->
-            <div class="summary-section">
-                <h2 class="summary-title"><i class="fas fa-clipboard-list"></i> 持ち物サマリー</h2>
-                
-                <div class="summary-list">
-                    <!-- サマリー内容はJavaScriptで生成 -->
-                    <div id="summary-content">
-                        <div class="empty-state">データがありません。持ち物を追加してください。</div>
+            <!-- No2 -->
+            <div class="person-card no2">
+                <div class="person-header">
+                    <input type="text" class="person-name-input" id="name-no2" value="No2" maxlength="20">
+                    <div class="person-no">No2</div>
+                </div>
+                <ul class="checklist" id="list-no2"></ul>
+                <div class="add-item-form">
+                    <input type="text" class="add-item-input" id="input-no2" placeholder="新しい持ち物を追加">
+                    <button class="add-item-btn" onclick="addItem('no2')">追加</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>準備進捗</span>
+                        <span class="progress-percent" id="progress-no2">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill-no2" style="width: 0%"></div>
                     </div>
                 </div>
-                
-                <div class="controls">
-                    <button class="control-btn" onclick="saveAllData()">
-                        <i class="fas fa-save"></i> 全て保存
+            </div>
+            
+            <!-- No3 -->
+            <div class="person-card no3">
+                <div class="person-header">
+                    <input type="text" class="person-name-input" id="name-no3" value="No3" maxlength="20">
+                    <div class="person-no">No3</div>
+                </div>
+                <ul class="checklist" id="list-no3"></ul>
+                <div class="add-item-form">
+                    <input type="text" class="add-item-input" id="input-no3" placeholder="新しい持ち物を追加">
+                    <button class="add-item-btn" onclick="addItem('no3')">追加</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>準備進捗</span>
+                        <span class="progress-percent" id="progress-no3">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill-no3" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No4 -->
+            <div class="person-card no4">
+                <div class="person-header">
+                    <input type="text" class="person-name-input" id="name-no4" value="No4" maxlength="20">
+                    <div class="person-no">No4</div>
+                </div>
+                <ul class="checklist" id="list-no4"></ul>
+                <div class="add-item-form">
+                    <input type="text" class="add-item-input" id="input-no4" placeholder="新しい持ち物を追加">
+                    <button class="add-item-btn" onclick="addItem('no4')">追加</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>準備進捗</span>
+                        <span class="progress-percent" id="progress-no4">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill-no4" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- エクスポートモーダル -->
+        <div class="modal-overlay" id="export-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title"><i class="fas fa-share-alt"></i> データをエクスポート</h3>
+                    <button class="close-modal" onclick="closeExportModal()">&times;</button>
+                </div>
+                <p class="modal-description">
+                    以下のJSONデータをコピーして、他の人と共有できます。このデータにはすべての持ち物リスト、チェック状態、名前が含まれています。
+                </p>
+                <div class="data-display" id="export-data"></div>
+                <div class="modal-actions">
+                    <button class="modal-btn secondary" onclick="copyExportData()">
+                        <i class="fas fa-copy"></i> クリップボードにコピー
                     </button>
-                    <button class="control-btn reset" onclick="resetAllData()">
-                        <i class="fas fa-redo"></i> 全てリセット
+                    <button class="modal-btn primary" onclick="closeExportModal()">
+                        <i class="fas fa-check"></i> 閉じる
                     </button>
                 </div>
-                
-                <div class="save-status" id="save-status">
-                    <i class="fas fa-check-circle"></i> データを保存しました！
+            </div>
+        </div>
+        
+        <!-- インポートモーダル -->
+        <div class="modal-overlay" id="import-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title"><i class="fas fa-download"></i> データをインポート</h3>
+                    <button class="close-modal" onclick="closeImportModal()">&times;</button>
+                </div>
+                <p class="modal-description">
+                    他の人が共有したJSONデータを貼り付けて、データをインポートできます。現在のデータは上書きされますのでご注意ください。
+                </p>
+                <textarea class="data-input" id="import-data" placeholder='{"checklistData": {...}, "checkedState": {...}, "nameData": {...}}'></textarea>
+                <div class="modal-actions">
+                    <button class="modal-btn secondary" onclick="clearImportData()">
+                        <i class="fas fa-eraser"></i> クリア
+                    </button>
+                    <button class="modal-btn primary" onclick="importData()">
+                        <i class="fas fa-download"></i> データをインポート
+                    </button>
                 </div>
             </div>
         </div>
         
         <footer>
-            <p>© 2023 キャンプ持ち物チェックリスト | データはブラウザに自動保存されます</p>
+            <p>© 2023 キャンプ持ち物チェックリスト | JSONデータを共有して他の人のデータを読み込めます</p>
         </footer>
     </div>
 
     <script>
-        // 初期データ（No1から「マキ」という名前を削除、持ち物リストから「マキ」を削除）
+        // 初期データ
         const initialItems = {
             'no1': [
                 'シュラフ4つ',
@@ -911,16 +662,10 @@
         // ローカルストレージからデータを読み込む
         let checklistData = JSON.parse(localStorage.getItem('campChecklist')) || initialItems;
         let checkedState = JSON.parse(localStorage.getItem('campChecklistState')) || {
-            'no1': {},
-            'no2': {},
-            'no3': {},
-            'no4': {}
+            'no1': {}, 'no2': {}, 'no3': {}, 'no4': {}
         };
         let nameData = JSON.parse(localStorage.getItem('campNames')) || {
-            'no1': 'No1',
-            'no2': 'No2',
-            'no3': 'No3',
-            'no4': 'No4'
+            'no1': 'No1', 'no2': 'No2', 'no3': 'No3', 'no4': 'No4'
         };
         
         // ページ読み込み時の処理
@@ -933,7 +678,6 @@
             // チェックリストを表示
             renderAllChecklists();
             updateAllProgressBars();
-            updateSummary();
             
             // 名前入力のイベントリスナー
             document.querySelectorAll('.person-name-input').forEach(input => {
@@ -941,14 +685,10 @@
                 input.addEventListener('input', function() {
                     nameData[personId] = this.value;
                     saveToLocalStorage();
-                    updateSummary();
-                    showSaveStatus();
                 });
                 
                 input.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        this.blur();
-                    }
+                    if (e.key === 'Enter') this.blur();
                 });
             });
             
@@ -1027,7 +767,6 @@
             checkedState[personId][index] = !checkedState[personId][index];
             saveToLocalStorage();
             updateProgressBar(personId);
-            updateSummary();
             
             // チェック状態を反映
             const itemElement = document.getElementById(`${personId}-item-${index}`);
@@ -1036,12 +775,6 @@
             } else {
                 itemElement.classList.remove('checked');
             }
-            
-            // アニメーション効果
-            const checkbox = document.getElementById(`${personId}-checkbox-${index}`);
-            checkbox.checked = checkedState[personId][index];
-            
-            showSaveStatus();
         }
         
         // 新しい項目を追加
@@ -1067,18 +800,13 @@
             // 保存
             saveToLocalStorage();
             
-            // 進捗バーとサマリーを更新
+            // 進捗バーを更新
             updateProgressBar(personId);
-            updateSummary();
-            
-            showSaveStatus();
         }
         
         // 項目を削除
         function deleteItem(personId, index) {
-            if (!confirm('この持ち物を削除しますか？')) {
-                return;
-            }
+            if (!confirm('この持ち物を削除しますか？')) return;
             
             // データから削除
             checklistData[personId].splice(index, 1);
@@ -1100,11 +828,8 @@
             // 保存
             saveToLocalStorage();
             
-            // 進捗バーとサマリーを更新
+            // 進捗バーを更新
             updateProgressBar(personId);
-            updateSummary();
-            
-            showSaveStatus();
         }
         
         // 進捗バーを更新
@@ -1118,9 +843,7 @@
             
             let checkedCount = 0;
             for (let i = 0; i < items.length; i++) {
-                if (checkedState[personId][i]) {
-                    checkedCount++;
-                }
+                if (checkedState[personId][i]) checkedCount++;
             }
             
             const percent = Math.round((checkedCount / items.length) * 100);
@@ -1135,77 +858,6 @@
             }
         }
         
-        // サマリーを更新
-        function updateSummary() {
-            const summaryContent = document.getElementById('summary-content');
-            summaryContent.innerHTML = '';
-            
-            let hasData = false;
-            
-            for (const personId in checklistData) {
-                const items = checklistData[personId];
-                if (items.length === 0) continue;
-                
-                hasData = true;
-                
-                const personDiv = document.createElement('div');
-                personDiv.className = 'summary-person';
-                
-                const headerDiv = document.createElement('div');
-                headerDiv.className = 'summary-person-header';
-                
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'summary-person-name';
-                nameSpan.textContent = nameData[personId] || personId.toUpperCase();
-                
-                // 統計を計算
-                let checkedCount = 0;
-                for (let i = 0; i < items.length; i++) {
-                    if (checkedState[personId][i]) {
-                        checkedCount++;
-                    }
-                }
-                
-                const statsSpan = document.createElement('span');
-                statsSpan.className = 'summary-person-stats';
-                statsSpan.textContent = `${checkedCount}/${items.length} 完了`;
-                
-                headerDiv.appendChild(nameSpan);
-                headerDiv.appendChild(statsSpan);
-                
-                const itemsUl = document.createElement('ul');
-                itemsUl.className = 'summary-items';
-                
-                // 項目を追加
-                items.forEach((item, index) => {
-                    const li = document.createElement('li');
-                    li.className = `summary-item ${checkedState[personId][index] ? 'checked' : 'unchecked'}`;
-                    
-                    const icon = document.createElement('i');
-                    icon.className = checkedState[personId][index] ? 'fas fa-check-circle' : 'far fa-circle';
-                    
-                    const textSpan = document.createElement('span');
-                    textSpan.className = 'summary-item-text';
-                    textSpan.textContent = item;
-                    
-                    li.appendChild(icon);
-                    li.appendChild(textSpan);
-                    itemsUl.appendChild(li);
-                });
-                
-                personDiv.appendChild(headerDiv);
-                personDiv.appendChild(itemsUl);
-                summaryContent.appendChild(personDiv);
-            }
-            
-            if (!hasData) {
-                const emptyState = document.createElement('div');
-                emptyState.className = 'empty-state';
-                emptyState.textContent = 'データがありません。持ち物を追加してください。';
-                summaryContent.appendChild(emptyState);
-            }
-        }
-        
         // データをローカルストレージに保存
         function saveToLocalStorage() {
             localStorage.setItem('campChecklist', JSON.stringify(checklistData));
@@ -1216,29 +868,17 @@
         // 全てのデータを保存
         function saveAllData() {
             saveToLocalStorage();
-            showSaveStatus();
+            alert('データを保存しました！');
         }
         
         // 全てのデータをリセット
         function resetAllData() {
-            if (!confirm('全てのデータをリセットしますか？この操作は元に戻せません。')) {
-                return;
-            }
+            if (!confirm('全てのデータをリセットしますか？この操作は元に戻せません。')) return;
             
             // 初期状態に戻す
             checklistData = JSON.parse(JSON.stringify(initialItems));
-            checkedState = {
-                'no1': {},
-                'no2': {},
-                'no3': {},
-                'no4': {}
-            };
-            nameData = {
-                'no1': 'No1',
-                'no2': 'No2',
-                'no3': 'No3',
-                'no4': 'No4'
-            };
+            checkedState = { 'no1': {}, 'no2': {}, 'no3': {}, 'no4': {} };
+            nameData = { 'no1': 'No1', 'no2': 'No2', 'no3': 'No3', 'no4': 'No4' };
             
             // 名前入力欄をリセット
             for (const personId in nameData) {
@@ -1251,32 +891,125 @@
             // 保存
             saveToLocalStorage();
             
-            // 進捗バーとサマリーを更新
+            // 進捗バーを更新
             updateAllProgressBars();
-            updateSummary();
             
-            // 保存完了メッセージ
-            const saveStatus = document.getElementById('save-status');
-            saveStatus.textContent = '全てのデータをリセットしました！';
-            saveStatus.style.background = 'rgba(74, 144, 226, 0.1)';
-            saveStatus.style.color = 'var(--primary)';
-            saveStatus.classList.add('show');
-            setTimeout(() => {
-                saveStatus.classList.remove('show');
-            }, 3000);
+            alert('全てのデータをリセットしました！');
         }
         
-        // 保存完了メッセージを表示
-        function showSaveStatus() {
-            const saveStatus = document.getElementById('save-status');
-            saveStatus.textContent = 'データを保存しました！';
-            saveStatus.style.background = 'rgba(126, 211, 33, 0.1)';
-            saveStatus.style.color = 'var(--secondary)';
-            saveStatus.classList.add('show');
-            setTimeout(() => {
-                saveStatus.classList.remove('show');
-            }, 2000);
+        // エクスポートモーダルを開く
+        function openExportModal() {
+            const exportData = {
+                checklistData: checklistData,
+                checkedState: checkedState,
+                nameData: nameData,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const jsonString = JSON.stringify(exportData, null, 2);
+            document.getElementById('export-data').textContent = jsonString;
+            document.getElementById('export-modal').classList.add('active');
         }
+        
+        // エクスポートモーダルを閉じる
+        function closeExportModal() {
+            document.getElementById('export-modal').classList.remove('active');
+        }
+        
+        // エクスポートデータをクリップボードにコピー
+        function copyExportData() {
+            const text = document.getElementById('export-data').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('JSONデータをクリップボードにコピーしました！');
+            }).catch(err => {
+                console.error('コピーに失敗しました:', err);
+                alert('コピーに失敗しました。手動で選択してコピーしてください。');
+            });
+        }
+        
+        // インポートモーダルを開く
+        function openImportModal() {
+            document.getElementById('import-modal').classList.add('active');
+        }
+        
+        // インポートモーダルを閉じる
+        function closeImportModal() {
+            document.getElementById('import-modal').classList.remove('active');
+        }
+        
+        // インポートデータをクリア
+        function clearImportData() {
+            document.getElementById('import-data').value = '';
+        }
+        
+        // データをインポート
+        function importData() {
+            const jsonString = document.getElementById('import-data').value.trim();
+            
+            if (!jsonString) {
+                alert('JSONデータを入力してください。');
+                return;
+            }
+            
+            try {
+                const importedData = JSON.parse(jsonString);
+                
+                // 必須フィールドのチェック
+                if (!importedData.checklistData || !importedData.checkedState || !importedData.nameData) {
+                    throw new Error('無効なデータ形式です。必要なフィールドがありません。');
+                }
+                
+                // データを上書き
+                checklistData = importedData.checklistData;
+                checkedState = importedData.checkedState;
+                nameData = importedData.nameData;
+                
+                // 名前を設定
+                for (const personId in nameData) {
+                    const inputElement = document.getElementById(`name-${personId}`);
+                    if (inputElement) {
+                        inputElement.value = nameData[personId];
+                    }
+                }
+                
+                // 表示を更新
+                renderAllChecklists();
+                
+                // 保存
+                saveToLocalStorage();
+                
+                // 進捗バーを更新
+                updateAllProgressBars();
+                
+                // モーダルを閉じる
+                closeImportModal();
+                
+                alert('データをインポートしました！');
+                
+            } catch (error) {
+                alert(`データのインポートに失敗しました: ${error.message}`);
+                console.error('インポートエラー:', error);
+            }
+        }
+        
+        // モーダル外をクリックで閉じる
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+        
+        // ESCキーでモーダルを閉じる
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
     </script>
 </body>
 </html>
